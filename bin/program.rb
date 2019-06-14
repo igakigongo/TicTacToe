@@ -1,10 +1,10 @@
 require_relative "../lib/board"
+require_relative "../lib/game"
 require_relative "../lib/player"
 
 board = Board.new
-board.print
+player_one = Player.new("Moses", "X")
+player_two = Player.new("Edward", "O")
 
-player = Player.new("Jason", "k")
-
-p player
-player.play
+game = Game.new(board, player_one, player_two)
+p game
