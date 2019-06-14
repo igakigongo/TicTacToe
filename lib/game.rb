@@ -3,18 +3,30 @@
 # - cannot have more than 2 players
 class Game
     attr_reader :board, :player_one, :player_two
+    @current_player
+    @@max_moves = 9
+    @invalid_board_message = 'Tic Tac Toe board should be initialized'
+    @invalid_players_message = 'Tic Tac Toe players should be 2'
 
     def initialize(board, player_one, player_two)
-        if player_one.nil? || player_two.nil?
-           raise 'Tic Tac Toe players should be 2'
-        end
+        # if player is_a?Player && !player.nil?
+        invalid_players = proc { |a, b| a.nil? || b.nil? }
 
-        if board.nil?
-            raise 'Tic Tac Toe board should be initialized'
-        end
+        raise Exception.new @invalid_board_message if board.nil?
+        raise Exception.new @invalid_players_message if invalid_players.call(player_one, player_two)
 
         @board = board
         @player_one = player_one
         @player_two = player_two
+        @current_player = @player_one
+    end
+
+    def request_play
+        n = 0
+        while n < @@max_moves
+            p "Played #{n+1} time(s) by #{@current_player.name}"
+            @current_player = @current_player == @player_one ? @player_two : @player_one
+            n += 1
+        end
     end
 end
