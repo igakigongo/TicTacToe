@@ -8,6 +8,17 @@ class Board
             @board << [nil, nil, nil]
         end
     end
+
+    def print
+        puts "-------------"
+        @board.each do |row|
+            first = row.first.nil? ? " " : row.first
+            second = row[1].nil? ? " " : row[1]
+            last = row.last.nil? ? " " : row.last
+            puts "| #{first} | #{second} | #{last} |"
+            puts "-------------"
+        end
+    end
 end
 
 # board = [
