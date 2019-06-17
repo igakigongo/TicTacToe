@@ -21,7 +21,7 @@ class Board
         s
     end
 
-    def recieve_choice (choice, current_player)
+    def recieve_choice(choice, current_player)
         if choice < 4
             @board[0][choice-1] = current_player.symbol
         elsif choice < 7
@@ -30,17 +30,15 @@ class Board
             @board[2][choice-7] = current_player.symbol
         end
     end
+
+    def choice_free?(choice)
+        if choice < 4
+            @board[0][choice-1].nil?
+        elsif choice < 7
+            @board[1][choice-4].nil?
+        else
+            @board[2][choice-7].nil?
+        end
+    end
 end
-
-# board = [
-#     [1, 2, 3],
-#     [4, 5, 6],
-#     [7, 8, 9]]
-
-# size = n
-# max_times_to_play = n**2
-
-# board class
-# add_nought_or_cross
-# won? - let us know if the game is won
 

@@ -26,12 +26,17 @@ class Game
         while n < @@max_moves
 						puts "Make a choice between 1 - 9"
 						choice = gets.chomp.to_i
-						@board.recieve_choice(choice, @current_player)
+						if @board.choice_free?(choice)
+							@board.recieve_choice(choice, @current_player)
+						else
+							puts "Choice cell is not free"
+						end
 						puts @board.to_s
             @current_player = @current_player == @player_one ? @player_two : @player_one
             n += 1
         end
 		end
+
 		
 		
 			
