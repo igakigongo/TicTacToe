@@ -19,6 +19,16 @@ class Board
             puts "-------------"
         end
     end
+
+    def recieve_choice (choice, current_player)
+        if choice < 4
+            @board[0][choice-1] = current_player.symbol
+        elsif choice < 7
+            @board[1][choice-4] = current_player.symbol
+        else
+            @board[2][choice-7] = current_player.symbol
+        end
+    end
 end
 
 # board = [

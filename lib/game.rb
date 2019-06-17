@@ -24,9 +24,17 @@ class Game
     def request_play
         n = 0
         while n < @@max_moves
-            p "Played #{n+1} time(s) by #{@current_player.name}"
+						puts "Make a choice between 1 - 9"
+						choice = gets.chomp.to_i
+						@board.recieve_choice(choice, @current_player)
+						@board.print
             @current_player = @current_player == @player_one ? @player_two : @player_one
             n += 1
         end
-    end
+		end
+		
+		
+			
+			 
+	
 end
