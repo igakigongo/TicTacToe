@@ -1,33 +1,35 @@
 # frozen_string_literal: true
 
+require 'set'
+
 # Maintains state about a TicTacToe Game/Board
-require "set"
-
 class Board
-  attr_reader :board
-
-  @@winning_set = [[1, 2, 3], [4, 5, 6], [7, 9, 8], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]].to_set
+  attr_reader :board, :max_moves, :winning_set
 
   def initialize
     @board = []
     3.times do
       @board << [nil, nil, nil]
     end
+    init_moves_and_set
   end
 
-  class << self
-    def winning_set
-      @@winning_set
-    end
+  def init_moves_and_set
+    @max_moves = 9
+    @winning_set = [
+      [1, 2, 3], [4, 5, 6], [7, 9, 8],
+      [1, 4, 7], [2, 5, 8], [3, 6, 9],
+      [1, 5, 9], [3, 5, 7]
+    ].to_set
   end
 
   def to_s
     s = "-------------\n"
     @board.each do |row|
-      first = row.first.nil? ? " " : row.first
-      second = row[1].nil? ? " " : row[1]
-      last = row.last.nil? ? " " : row.last
-      s += "| #{first} | #{second} | #{last} | \n"
+      first = row.first.nil? ? ' ' : row.first
+      second = row[1].nil? ? ' ' : row[1]
+      last = row.last.nil? ? ' ' : row.last
+      s += "| #{first} | #{second} | #{last} |\n"
       s += "------------- \n"
     end
     s
@@ -45,32 +47,32 @@ class Board
 
   def position(choice)
     if choice < 4
-      return 0, choice - 1
+      [0, choice - 1]
     elsif choice < 7
-      return 1, choice - 4
+      [1, choice - 4]
     else
-      return 2, choice - 7
+      [2, choice - 7]
     end
   end
 
-  def moves_played_by?(player)
+  def moves_made_by?(player)
     locations = []
-    @board.each_with_index do |x, x_index|
-      x.each_with_index do |y, y_index|
-        locations << position_to_choice(x_index, y_index) if player.symbol.equal? y
+    @board.each_with_index do |x, x_i|
+      x.each_with_index do |y, y_i|
+        locations << decode_position(x_i, y_i) if player.symbol.equal? y
       end
     end
     locations
   end
 
-  def position_to_choice(x, y)
-    case x
+  def decode_position(x_cord, y_cord)
+    case x_cord
     when 0
-      y + 1
+      y_cord + 1
     when 1
-      y + 4
+      y_cord + 4
     else
-      y + 7
+      y_cord + 7
     end
   end
 end

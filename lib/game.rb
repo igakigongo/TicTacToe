@@ -1,70 +1,85 @@
 # frozen_string_literal: true
+
+require 'set'
+
 # Links board and players to create the game
 # Constraints
 # - cannot have more than 2 players
-
-require "set"
-
 class Game
-  attr_reader :board, :player_one, :player_two
-  @current_player
-  @@max_moves = 9
-  @invalid_board_message = "Tic Tac Toe board should be initialized"
-  @invalid_players_message = "Tic Tac Toe players should be 2"
+  attr_accessor :winner_exists
+  attr_reader :board, :current, :player_one, :player_two
 
   def initialize(board, player_one, player_two)
-    invalid_players = proc { |a, b| a.nil? || b.nil? }
-
-    raise Exception.new @invalid_board_message if board.nil?
-    raise Exception.new @invalid_players_message if invalid_players.call(player_one, player_two)
+    validate_board(board)
+    validate_players(player_one, player_two)
 
     @board = board
     @player_one = player_one
     @player_two = player_two
-    @current_player = @player_one
+    @current = @player_one
+    @winner_exists = false
   end
 
-  def request_play
-    winner_exists = false
-    n = 0
-    while n < @@max_moves
-      puts "Make a choice between 1 - 9"
-      choice = get_choice
-      @board.recieve_choice(choice, @current_player)
-      puts @board.to_s
-      if has_won?
-        winner_exists = true
-        break
-      end
-      @current_player = @current_player == @player_one ? @player_two : @player_one
-      n += 1
+  def choose_next_player
+    @current = @current == @player_one ? @player_two : @player_one
+  end
+
+  def print_status
+    if @winner_exists == true
+      puts "#{@current.name} has won"
+    else
+      puts 'The game ended in a draw'
     end
-    puts winner_exists ? "#{@current_player.name} has won" : "The game ended in a draw"
   end
 
-  def get_choice
+  def read_choice
+    puts 'Make a choice between 1 - 9'
     choice = nil
-    while true
+    loop do
       choice = validate_choice
       break if @board.choice_free?(choice)
-      puts "Choice cell is not free"
-      puts "Make another choice between 1 - 9"
+
+      puts 'Choice cell is not free'
+      puts 'Make another choice between 1 - 9'
     end
     choice.to_i
   end
 
+  def request_play
+    (1..@board.max_moves).each do |_|
+      @board.recieve_choice(read_choice, @current)
+      puts @board.to_s
+      if won?
+        @winner_exists = true
+        break
+      end
+      choose_next_player
+    end
+    print_status
+  end
+
+  def validate_board(board)
+    raise 'Tic Tac Toe board should be initialized' if board.nil?
+  end
+
   def validate_choice
     choice = gets.chomp
-    while true
-      break if (/^[1-9]{1}$/).match?(choice)
-      puts "Invalid Choice. Enter a number between 1 and 9"
+    loop do
+      break if /^[1-9]{1}$/.match?(choice)
+
+      puts 'Invalid Choice. Enter a number between 1 and 9'
       choice = gets.chomp
     end
     choice.to_i
   end
 
-  def has_won?
-    combinations = @board.moves_played_by?(@current_player).combination(3).to_set
-    my_set = (combinations & Board.winning_set).any?
+  def validate_players(player_one, player_two)
+    raise 'Please enter correct details for player one' if player_one.nil?
+    raise 'Please enter correct details for player two' if player_two.nil?
+  end
+
+  def won?
+    combinations = @board.moves_made_by?(@current).combination(3).to_set
+    (combinations & @board.winning_set).any?
   end
 end
