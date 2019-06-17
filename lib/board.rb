@@ -9,15 +9,16 @@ class Board
         end
     end
 
-    def print
-        puts "-------------"
+    def to_s
+        s = "-------------\n"
         @board.each do |row|
             first = row.first.nil? ? " " : row.first
             second = row[1].nil? ? " " : row[1]
             last = row.last.nil? ? " " : row.last
-            puts "| #{first} | #{second} | #{last} |"
-            puts "-------------"
+            s += "| #{first} | #{second} | #{last} | \n"
+            s += "------------- \n"
         end
+        s
     end
 
     def recieve_choice (choice, current_player)
