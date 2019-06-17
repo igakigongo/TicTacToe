@@ -1,9 +1,9 @@
-require 'set'
-
+# frozen_string_literal: true
 # Links board and players to create the game
 # Constraints
 # - cannot have more than 2 players
 
+require 'set'
 class Game
     attr_reader :board, :player_one, :player_two
     @current_player

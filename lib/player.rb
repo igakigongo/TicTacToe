@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # player as an entity
 class Player
     attr_reader :name, :symbol

@@ -1,4 +1,4 @@
-'# frozen_string_literal: true'
+# frozen_string_literal: true
 # Maintains state about a TicTacToe Game/Board
 
 require 'set'
