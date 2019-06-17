@@ -22,22 +22,22 @@ class Board
     end
 
     def recieve_choice(choice, current_player)
-        if choice < 4
-            @board[0][choice-1] = current_player.symbol
-        elsif choice < 7
-            @board[1][choice-4] = current_player.symbol
-        else
-            @board[2][choice-7] = current_player.symbol
-        end
+        x,y = position(choice)
+        @board[x][y] = current_player.symbol
     end
 
     def choice_free?(choice)
+        x,y = position(choice)
+        @board[x][y].nil?
+    end
+
+    def position(choice)
         if choice < 4
-            @board[0][choice-1].nil?
+            return 0, choice-1
         elsif choice < 7
-            @board[1][choice-4].nil?
+            return 1, choice-4
         else
-            @board[2][choice-7].nil?
+            return 2, choice-7
         end
     end
 end
