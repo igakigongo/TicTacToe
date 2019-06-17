@@ -1,15 +1,17 @@
+require 'set'
+
 # Links board and players to create the game
 # Constraints
 # - cannot have more than 2 players
+
 class Game
     attr_reader :board, :player_one, :player_two
     @current_player
     @@max_moves = 9
     @invalid_board_message = 'Tic Tac Toe board should be initialized'
-    @invalid_players_message = 'Tic Tac Toe players should be 2'
-
+		@invalid_players_message = 'Tic Tac Toe players should be 2'
+		
     def initialize(board, player_one, player_two)
-        # if player is_a?Player && !player.nil?
         invalid_players = proc { |a, b| a.nil? || b.nil? }
 
         raise Exception.new @invalid_board_message if board.nil?
@@ -18,7 +20,8 @@ class Game
         @board = board
         @player_one = player_one
         @player_two = player_two
-        @current_player = @player_one
+				@current_player = @player_one
+				
     end
 
     def request_play
@@ -28,6 +31,7 @@ class Game
 						choice = get_choice
 						@board.recieve_choice(choice, @current_player)
 						puts @board.to_s
+						has_won?
             @current_player = @current_player == @player_one ? @player_two : @player_one
             n += 1
         end
@@ -52,6 +56,11 @@ class Game
 				choice = gets.chomp
 			end
 			choice.to_i
+		end
+
+		def has_won?
+			p @board.moves_played_by?(@current_player)
+			p Board.winning_set
 		end
 		
 		
