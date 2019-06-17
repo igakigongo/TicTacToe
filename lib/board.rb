@@ -1,5 +1,7 @@
-require 'set'
+'# frozen_string_literal: true'
 # Maintains state about a TicTacToe Game/Board
+
+require 'set'
 class Board
 	attr_reader :board
 
