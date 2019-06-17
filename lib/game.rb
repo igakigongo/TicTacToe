@@ -59,12 +59,8 @@ class Game
 		end
 
 		def has_won?
-			p @board.moves_played_by?(@current_player)
+			p @board.moves_played_by?(@current_player).combination(3)
 			p Board.winning_set
 		end
-		
-		
 			
-			 
-	
 end
