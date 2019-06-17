@@ -23,21 +23,22 @@ class Game
 		@current_player = @player_one
     end
 
-    def request_play
+	def request_play
+		winner_exists = false
         n = 0
         while n < @@max_moves
 			puts "Make a choice between 1 - 9"
 			choice = get_choice
 			@board.recieve_choice(choice, @current_player)
 			puts @board.to_s
-			won, message = has_won?
-			if won
-				puts "#{@current_player.name} has won"
-				break
+			if has_won? 
+				winner_exists = true 
+				break 
 			end
             @current_player = @current_player == @player_one ? @player_two : @player_one
             n += 1
-        end
+		end
+		puts winner_exists ? "#{@current_player.name} has won" : "The game ended in a draw"
 	end
 
 	def get_choice
