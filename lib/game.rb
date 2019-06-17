@@ -20,47 +20,49 @@ class Game
         @board = board
         @player_one = player_one
         @player_two = player_two
-				@current_player = @player_one
-				
+		@current_player = @player_one
     end
 
     def request_play
         n = 0
         while n < @@max_moves
-						puts "Make a choice between 1 - 9"
-						choice = get_choice
-						@board.recieve_choice(choice, @current_player)
-						puts @board.to_s
-						has_won?
+			puts "Make a choice between 1 - 9"
+			choice = get_choice
+			@board.recieve_choice(choice, @current_player)
+			puts @board.to_s
+			won, message = has_won?
+			if won
+				puts "#{@current_player.name} has won"
+				break
+			end
             @current_player = @current_player == @player_one ? @player_two : @player_one
             n += 1
         end
-		end
+	end
 
-		def get_choice
-			choice = nil
-				while true
-					choice = validate_choice
-					break if @board.choice_free?(choice)
-					puts "Choice cell is not free"
-					puts "Make another choice between 1 - 9"
-				end
-			choice.to_i
-		end
-
-		def validate_choice
-			choice = gets.chomp
+	def get_choice
+		choice = nil
 			while true
-				break if (/^[1-9]{1}$/).match?(choice)
-				puts "Invalid Choice. Enter a number between 1 and 9"
-				choice = gets.chomp
+				choice = validate_choice
+				break if @board.choice_free?(choice)
+				puts "Choice cell is not free"
+				puts "Make another choice between 1 - 9"
 			end
-			choice.to_i
-		end
+		choice.to_i
+	end
 
-		def has_won?
-			p @board.moves_played_by?(@current_player).combination(3)
-			p Board.winning_set
+	def validate_choice
+		choice = gets.chomp
+		while true
+			break if (/^[1-9]{1}$/).match?(choice)
+			puts "Invalid Choice. Enter a number between 1 and 9"
+			choice = gets.chomp
 		end
-			
+		choice.to_i
+	end
+
+	def has_won?
+		combinations = @board.moves_played_by?(@current_player).combination(3).to_set
+		my_set = (combinations & Board.winning_set).any?
+	end
 end
