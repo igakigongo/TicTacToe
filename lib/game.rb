@@ -37,4 +37,6 @@ class Game
     combinations = @board.moves_made_by?(@current).combination(3).to_set
     (combinations & @board.winning_set).any?
   end
+
+  private :validate_board, :validate_players
 end

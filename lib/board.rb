@@ -84,4 +84,6 @@ class Board
     end
     s
   end
+
+  private :init_example_board, :init_moves_and_set
 end
