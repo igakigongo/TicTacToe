@@ -4,14 +4,23 @@ require 'set'
 
 # Maintains state about a TicTacToe Game/Board
 class Board
-  attr_reader :board, :max_moves, :winning_set
+  attr_reader :board, :example, :max_moves, :winning_set
 
   def initialize
     @board = []
     3.times do
       @board << [nil, nil, nil]
     end
+    init_example_board
     init_moves_and_set
+  end
+
+  def init_example_board
+    @example = "-------------\n"
+    [0, 3, 6].each do |i|
+      @example += "| #{i + 1} | #{i + 2} | #{i + 3} |\n"
+      @example += "------------- \n"
+    end
   end
 
   def init_moves_and_set
@@ -23,35 +32,19 @@ class Board
     ].to_set
   end
 
-  def to_s
-    s = "-------------\n"
-    @board.each do |row|
-      first = row.first.nil? ? ' ' : row.first
-      second = row[1].nil? ? ' ' : row[1]
-      last = row.last.nil? ? ' ' : row.last
-      s += "| #{first} | #{second} | #{last} |\n"
-      s += "------------- \n"
-    end
-    s
-  end
-
-  def recieve_choice(choice, current_player)
-    x, y = position(choice)
-    @board[x][y] = current_player.symbol
-  end
-
   def choice_free?(choice)
     x, y = position(choice)
     @board[x][y].nil?
   end
 
-  def position(choice)
-    if choice < 4
-      [0, choice - 1]
-    elsif choice < 7
-      [1, choice - 4]
+  def decode_position(x_cord, y_cord)
+    case x_cord
+    when 0
+      y_cord + 1
+    when 1
+      y_cord + 4
     else
-      [2, choice - 7]
+      y_cord + 7
     end
   end
 
@@ -65,14 +58,30 @@ class Board
     locations
   end
 
-  def decode_position(x_cord, y_cord)
-    case x_cord
-    when 0
-      y_cord + 1
-    when 1
-      y_cord + 4
+  def position(choice)
+    if choice < 4
+      [0, choice - 1]
+    elsif choice < 7
+      [1, choice - 4]
     else
-      y_cord + 7
+      [2, choice - 7]
     end
+  end
+
+  def recieve_choice(choice, current_player)
+    x, y = position(choice)
+    @board[x][y] = current_player.symbol
+  end
+
+  def to_s
+    s = "-------------\n"
+    @board.each do |row|
+      first = row.first.nil? ? ' ' : row.first
+      second = row[1].nil? ? ' ' : row[1]
+      last = row.last.nil? ? ' ' : row.last
+      s += "| #{first} | #{second} | #{last} |\n"
+      s += "------------- \n"
+    end
+    s
   end
 end

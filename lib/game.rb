@@ -24,53 +24,8 @@ class Game
     @current = @current == @player_one ? @player_two : @player_one
   end
 
-  def print_status
-    if @winner_exists == true
-      puts "#{@current.name} has won"
-    else
-      puts 'The game ended in a draw'
-    end
-  end
-
-  def read_choice
-    puts 'Make a choice between 1 - 9'
-    choice = nil
-    loop do
-      choice = validate_choice
-      break if @board.choice_free?(choice)
-
-      puts 'Choice cell is not free'
-      puts 'Make another choice between 1 - 9'
-    end
-    choice.to_i
-  end
-
-  def request_play
-    (1..@board.max_moves).each do |_|
-      @board.recieve_choice(read_choice, @current)
-      puts @board.to_s
-      if won?
-        @winner_exists = true
-        break
-      end
-      choose_next_player
-    end
-    print_status
-  end
-
   def validate_board(board)
     raise 'Tic Tac Toe board should be initialized' if board.nil?
-  end
-
-  def validate_choice
-    choice = gets.chomp
-    loop do
-      break if /^[1-9]{1}$/.match?(choice)
-
-      puts 'Invalid Choice. Enter a number between 1 and 9'
-      choice = gets.chomp
-    end
-    choice.to_i
   end
 
   def validate_players(player_one, player_two)
