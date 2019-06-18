@@ -13,6 +13,7 @@ def print_status(game)
 end
 
 def read_choice(game)
+  puts "Next player is: #{game.current.name} "
   puts 'Make a choice between 1 - 9'
   choice = nil
   loop do
