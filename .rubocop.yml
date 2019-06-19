@@ -1,3 +1,5 @@
 AllCops:
+ Include:
+   - '**/*.rb'
  Exclude:
    - './spec/**/*.rb'
