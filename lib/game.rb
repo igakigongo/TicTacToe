@@ -25,12 +25,13 @@ class Game
   end
 
   def validate_board(board)
-    raise 'Tic Tac Toe board should be initialized' if board.nil?
+    raise StandardError, 'Tic Tac Toe board should be initialized' if board.nil?
   end
 
   def validate_players(player_one, player_two)
-    raise 'Please enter correct details for player one' if player_one.nil?
-    raise 'Please enter correct details for player two' if player_two.nil?
+    prefix = 'Please enter correct details for player'
+    raise StandardError, "#{prefix} one" if player_one.nil?
+    raise StandardError, "#{prefix} two" if player_two.nil?
   end
 
   def won?
