@@ -29,8 +29,9 @@ class Game
   end
 
   def validate_players(player_one, player_two)
-    raise StandardError, 'Please enter correct details for player one' if player_one.nil?
-    raise StandardError, 'Please enter correct details for player two' if player_two.nil?
+    prefix = 'Please enter correct details for player'
+    raise StandardError, "#{prefix} one" if player_one.nil?
+    raise StandardError, "#{prefix} two" if player_two.nil?
   end
 
   def won?
