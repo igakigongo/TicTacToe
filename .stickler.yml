@@ -1,12 +1,8 @@
 linters:
   rubocop:
-<<<<<<< HEAD
     display_cop_names: true,
     fixer: true
     
 files:
     ignore:
         - 'spec/*'
-=======
-    display_cop_names: true
->>>>>>> b3141ad... Add main program file and stickler config file
