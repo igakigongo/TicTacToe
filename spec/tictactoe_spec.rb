@@ -3,15 +3,15 @@ require_relative '../lib/game'
 require_relative '../lib/player'
 
 describe Board do
-  describe '#choice_free?' do
-    it 'should return true for all positions when new' do
+  describe '#choice_free? should return' do
+    it 'true for all positions when new' do
       board = Board.new
       result = true
       (1..9).each {|ele| result &= board.choice_free?(ele)}
       expect(result).to be true
     end
 
-    it 'should return false if position of choice is not free' do
+    it 'false if position of choice is not free' do
       board = Board.new
       player = Player.new('Ed', 'X')
       board.recieve_choice(2, player)
@@ -31,5 +31,22 @@ describe Board do
       expect(output_positions).to match_array (1..9).to_a
     end
   end
+
+  describe '#moves_made_by' do
+    it 'should return an empty array when the board is new' do
+      board = Board.new
+      player = Player.new('Ed', 'X')
+      expect(board.moves_made_by?(player)).to be_empty
+    end
+
+    it 'should return [1, 2, 7] when player plays 1, 2 and 7' do
+      board = Board.new
+      player = Player.new('Ed', 'X')
+      [1, 2, 7].each {|x| board.recieve_choice(x, player)}
+      expect(board.moves_made_by?(player)).to match_array [2, 1, 7]
+    end
+  end
+
+
 
 end
