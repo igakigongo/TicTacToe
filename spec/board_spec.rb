@@ -1,5 +1,4 @@
 require_relative '../lib/board'
-require_relative '../lib/game'
 require_relative '../lib/player'
 
 describe Board do
@@ -63,9 +62,4 @@ describe Board do
 
   xdescribe '#position'
   xdescribe '#recieve_choice'
-  
-
-
-
-
 end
