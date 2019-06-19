@@ -32,7 +32,7 @@ describe Board do
     end
   end
 
-  describe '#moves_made_by' do
+  describe '#moves_made_by?' do
     it 'should return an empty array when the board is new' do
       board = Board.new
       player = Player.new('Ed', 'X')
@@ -46,6 +46,25 @@ describe Board do
       expect(board.moves_made_by?(player)).to match_array [2, 1, 7]
     end
   end
+
+  describe '#to_s' do
+    it 'should not contain X/O when the board is new' do
+      board = Board.new
+      expect(board.to_s).not_to match /x|o/i
+    end
+
+    it 'should contain n symbols when player makes n moves' do
+      board = Board.new
+      player = Player.new('Ed', 'X')
+      [2, 5, 6].each {|ele| board.recieve_choice(ele, player)}
+      expect(board.to_s.count(player.symbol)).to eql 3
+    end
+  end
+
+  xdescribe '#position'
+  xdescribe '#recieve_choice'
+  
+
 
 
 
