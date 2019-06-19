@@ -19,4 +19,17 @@ describe Board do
     end
   end
 
+  describe '#decode_position' do
+    it 'should return (1 - 9) for x and y in (0 - 2)' do
+      board = Board.new
+      output_positions = []
+      (0..2).each do |x|
+        (0..2).each do |y|
+          output_positions << board.decode_position(x, y)
+        end
+      end
+      expect(output_positions).to match_array (1..9).to_a
+    end
+  end
+
 end
