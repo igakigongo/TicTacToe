@@ -75,8 +75,5 @@ describe Game do
       end
       expect(won).to be false
     end
-
   end
-
-
 end
